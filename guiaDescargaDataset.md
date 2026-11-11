@@ -31,9 +31,11 @@ py -3.12 -m pip install -r requirements.txt
 ```
 
 En Windows, Spark necesita `winutils.exe` y `hadoop.dll` para escribir en disco.
-Ya estan incluidos en `tools/hadoop/bin/`; el script configura `HADOOP_HOME`
-automaticamente. Si prefieres una instalacion propia, define `HADOOP_HOME`
-antes de ejecutar.
+No estan incluidos en el repo. Colocalos en `tools/hadoop/bin/` o en
+`%USERPROFILE%\.hadoop\bin\` (por ejemplo los de
+[cdarlint/winutils](https://github.com/cdarlint/winutils), carpeta `hadoop-3.3.6`);
+el script configura `HADOOP_HOME` automaticamente. Si prefieres una instalacion
+propia, define `HADOOP_HOME` antes de ejecutar.
 
 ### Ejecucion
 

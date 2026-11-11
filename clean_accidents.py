@@ -199,7 +199,14 @@ def perfil_calidad(df: DataFrame) -> dict[str, int]:
         nombre_expr.append((f"{col}__vacios", f"Vacios en {col}"))
 
     # --- duplicados ------------------------------------------------------
-    exprs.append(F.countDistinct(*[F.col(f"`{c}`") for c in DEDUPE_KEY]).alias("claves_distintas"))
+    # La clave se compara ya tipada: el CSV mezcla "2017-07-23 04:21:01" y
+    # "2017-07-23 04:21:01.000000000" para el mismo instante, y como texto
+    # parecerian accidentes distintos.
+    exprs.append(F.countDistinct(
+        F.to_timestamp(F.col("`Start_Time`")),
+        F.col("`Start_Lat`").cast("double"),
+        F.col("`Start_Lng`").cast("double"),
+    ).alias("claves_distintas"))
     exprs.append(F.countDistinct(F.col("`ID`")).alias("ids_distintos"))
     nombre_expr += [
         ("claves_distintas", "Claves naturales distintas"),
@@ -394,11 +401,15 @@ def limpiar(df: DataFrame, deduplicar: bool = True) -> DataFrame:
     df = normalizar_categoricas(df)
     df = normalizar_tipos(df)
 
-    # Filas sin datos criticos: no se pueden usar ni recuperar.
-    df = df.filter(~F.coalesce(*[F.col(f"`{c}`").isNull() for c in CRITICAL_COLUMNS]))
+    df = anular_fuera_de_rango(df)
+
+    # Filas sin datos criticos (incluidas coordenadas que acaban de anularse por
+    # estar fuera de rango): no se pueden usar ni recuperar.
+    df = df.filter(
+        functools.reduce(operator.and_, [F.col(f"`{c}`").isNotNull() for c in CRITICAL_COLUMNS])
+    )
 
     df = corregir_duraciones(df)
-    df = anular_fuera_de_rango(df)
     if deduplicar:
         df = eliminar_duplicados(df)
 
