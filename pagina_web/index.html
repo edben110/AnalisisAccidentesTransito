@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accidentes de tránsito en EE. UU. · Proyecto 3</title>
+  <meta name="description" content="Análisis de 7,2 millones de accidentes de tránsito en Estados Unidos (2016–2023): estados, ciudades, horas, clima, severidad, duración y puntos críticos.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#inicio">Accidentes EE. UU.</a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#r1" title="Estados"><b>1</b><span>Estados</span></a>
+        <a href="#r2" title="Hora"><b>2</b><span>Hora</span></a>
+        <a href="#r3" title="Severidad"><b>3</b><span>Severidad</span></a>
+        <a href="#r4" title="Clima"><b>4</b><span>Clima</span></a>
+        <a href="#r5" title="Vías"><b>5</b><span>Vías</span></a>
+        <a href="#r6" title="Días"><b>6</b><span>Días</span></a>
+        <a href="#r7" title="Duración"><b>7</b><span>Duración</span></a>
+        <a href="#r8" title="Tendencias"><b>8</b><span>Tendencias</span></a>
+        <a href="#r9" title="Vehículos"><b>9</b><span>Vehículos</span></a>
+        <a href="#r10" title="Mapa"><b>10</b><span>Mapa</span></a>
+        <a href="#conclusiones" title="Conclusiones"><b>✓</b><span>Conclusiones</span></a>
+      </nav>
+      <div class="tools">
+        <button class="icon-btn" id="btn-present" type="button" title="Modo exposición (P)" aria-pressed="false">▶ <span>Exponer</span></button>
+        <button class="icon-btn" id="btn-theme" type="button" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">Tema</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Portada -->
+    <section class="hero" id="inicio">
+      <div class="wrap">
+        <p class="eyebrow">Herramientas Computacionales · Proyecto 3</p>
+        <h1>Accidentes de tránsito en Estados Unidos, 2016–2023</h1>
+        <p class="lead">Analizamos 7,2 millones de registros del dataset <em>US Accidents</em> (Kaggle). Los limpiamos con PySpark y los modelamos en Power BI para responder dónde, cuándo y en qué condiciones ocurren los accidentes.</p>
+        <div class="kpis">
+          <div class="kpi main"><div class="label">Registros analizados</div><div class="value">7.186.791</div><div class="sub">después de la limpieza</div></div>
+          <div class="kpi"><div class="label">Periodo</div><div class="value">87 meses</div><div class="sub">14 ene 2016 – 31 mar 2023</div></div>
+          <div class="kpi"><div class="label">Duración promedio</div><div class="value">102,24 min</div><div class="sub">registros con hora de fin válida</div></div>
+          <div class="kpi"><div class="label">Severidad media</div><div class="value">2,22</div><div class="sub">escala de 1 (leve) a 4 (grave)</div></div>
+        </div>
+        <p class="team"><strong>Equipo:</strong> Daniel Felipe Guevara Rodríguez · Edwar Alexander Benito · John Sebastian Ceballos · Juan Manuel Córdoba — Universidad Cooperativa de Colombia</p>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="req" id="r1">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">01</div>
+          <div><h2>Frecuencia por estado y ciudad</h2><p class="q">¿Dónde se concentran los accidentes?</p></div>
+        </div>
+        <div class="grid-2">
+          <div class="card" data-chart="estados"><div class="card-head"><div><h3>Accidentes por estado</h3><p class="sub">7 estados con más registros</p></div></div><div class="chart"></div></div>
+          <div class="card" data-chart="ciudades"><div class="card-head"><div><h3>Accidentes por ciudad</h3><p class="sub">7 ciudades con más registros</p></div></div><div class="chart"></div></div>
+        </div>
+        <div class="insights">
+          <div class="insight"><div class="big">22,7 %</div><p>de todos los accidentes ocurrió en California: 1.629.140, más del doble que Florida.</p></div>
+          <div class="insight"><div class="big">59 %</div><p>del total se concentra en solo 7 estados.</p></div>
+          <div class="insight"><div class="big">Houston</div><p>lidera entre las ciudades con 163.308 accidentes, seguida de Miami (152.837) y Los Angeles (147.740).</p></div>
+        </div>
+        <p class="caveat">Son conteos absolutos y no están ajustados por población ni por kilómetros recorridos. Un estado grande y muy poblado tiende a tener más registros.</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="req" id="r2">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">02</div>
+          <div><h2>Hora del día con mayor accidentalidad</h2><p class="q">¿A qué hora empiezan más accidentes?</p></div>
+        </div>
+        <div class="card" data-chart="horas"><div class="card-head"><div><h3>Accidentes por hora de inicio</h3><p class="sub">Total 2016–2023 · hora tomada de Start_Time</p></div></div><div class="chart"></div></div>
+        <div class="insights">
+          <div class="insight"><div class="big">07:00</div><p>es la hora pico, con 563.091 accidentes. Le sigue 08:00 con 554.546, en la hora de entrada al trabajo.</p></div>
+          <div class="insight"><div class="big">16:00–17:00</div><p>es el segundo pico (538.083 y 534.531), en la hora de salida.</p></div>
+          <div class="insight"><div class="big">03:00</div><p>es la hora más tranquila, con 73.879 accidentes: unas 7,6 veces menos que a las 07:00.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="req" id="r3">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">03</div>
+          <div><h2>Análisis por severidad</h2><p class="q">¿Qué tan graves son los accidentes y cambia la gravedad con la hora?</p></div>
+        </div>
+        <div class="grid-2">
+          <div class="card" data-chart="severidad"><div class="card-head"><div><h3>Accidentes por nivel de severidad</h3><p class="sub">1 = impacto leve en el tráfico · 4 = impacto grave</p></div></div><div class="chart"></div></div>
+          <div class="card" data-chart="sevHora"><div class="card-head"><div><h3>Severidad media por hora</h3><p class="sub">Escala 1–4 · eje vertical ampliado</p></div></div><div class="chart"></div></div>
+        </div>
+        <div class="insights">
+          <div class="insight"><div class="big">78,7 %</div><p>de los accidentes es de nivel 2. Casi 4 de cada 5.</p></div>
+          <div class="insight"><div class="big">2,5 %</div><p>es de nivel 4 (177.581 casos), el de mayor impacto en el tráfico.</p></div>
+          <div class="insight"><div class="big">η² = 0,001</div><p>La severidad media sube un poco de noche (2,26 a las 20:00 frente a 2,19 a las 07:00). El ANOVA da diferencias significativas, F(23; 7.186.767) = 362,57, pero la hora explica solo el 0,12 % de la variación.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="req" id="r4">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">04</div>
+          <div><h2>Relación con las condiciones climáticas</h2><p class="q">¿Bajo qué clima se registran los accidentes?</p></div>
+        </div>
+        <div class="card" data-chart="clima"><div class="card-head"><div><h3>Accidentes por condición climática</h3><p class="sub">Categorías principales de Weather_Condition</p></div></div><div class="chart"></div></div>
+        <div class="insights">
+          <div class="insight"><div class="big">32,1 %</div><p>de los accidentes ocurrió con tiempo despejado (<em>Fair</em>): 2.308.827 casos.</p></div>
+          <div class="insight"><div class="big">4,6 %</div><p>ocurrió con lluvia ligera (330.472). Es la primera condición de precipitación de la lista.</p></div>
+          <div class="insight"><div class="big">Exposición</div><p>Que haya más accidentes con buen tiempo no lo hace más peligroso. Sencillamente, la mayoría de los viajes ocurre con buen tiempo.</p></div>
+        </div>
+        <p class="caveat">Para medir el riesgo de cada clima haría falta saber cuánto se conduce bajo cada condición (tiempo o tráfico expuesto). Estos datos describen los casos registrados.</p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="req" id="r5">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">05</div>
+          <div><h2>Tipos de vía más peligrosos</h2><p class="q">¿En qué tipo de vía se registran más accidentes?</p></div>
+        </div>
+        <div class="card" data-chart="via"><div class="card-head"><div><h3>Accidentes por tipo de vía</h3><p class="sub">Clasificado por prefijo de Street: I- interestatal, US- federal, SR- estatal</p></div></div><div class="chart"></div></div>
+        <div class="insights">
+          <div class="insight"><div class="big">1.809.680</div><p>accidentes en interestatales: el 90 % de las vías que se pudieron clasificar.</p></div>
+          <div class="insight"><div class="big">72 %</div><p>de las calles no tiene prefijo reconocible y queda como «Otra vía / sin clasificar».</p></div>
+          <div class="insight"><div class="big">Autopistas</div><p>Las interestatales concentran el volumen. Combinan alta velocidad y mucho tráfico.</p></div>
+        </div>
+        <p class="caveat">Para decir qué vía es «más peligrosa» haría falta dividir por los vehículos-kilómetro recorridos en cada tipo. Aquí se comparan conteos.</p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="req" id="r6">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">06</div>
+          <div><h2>Días de la semana con más incidentes</h2><p class="q">¿Qué días se concentran los accidentes?</p></div>
+        </div>
+        <div class="card" data-chart="dias"><div class="card-head"><div><h3>Accidentes por día de la semana</h3><p class="sub">Total 2016–2023 · fin de semana en tono claro</p></div></div><div class="chart"></div></div>
+        <div class="insights">
+          <div class="insight"><div class="big">Viernes</div><p>es el día con más accidentes: 1.273.461.</p></div>
+          <div class="insight"><div class="big">2,5×</div><p>Hay casi 2,5 veces más accidentes un viernes que un domingo (513.815).</p></div>
+          <div class="insight"><div class="big">84,4 %</div><p>de los accidentes ocurre de lunes a viernes, lo que coincide con los picos de entrada y salida del trabajo.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="req" id="r7">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">07</div>
+          <div><h2>Promedio de duración del incidente</h2><p class="q">¿Cuánto tiempo afecta un accidente al tráfico y depende de la severidad?</p></div>
+        </div>
+        <div class="grid-3-1">
+          <div class="card" data-chart="duracion"><div class="card-head"><div><h3>Duración promedio por severidad</h3><p class="sub">Minutos entre Start_Time y End_Time · 7.159.574 registros con fin válido</p></div></div><div class="chart"></div></div>
+          <div class="card">
+            <div class="card-head"><div><h3>ANOVA de un factor</h3><p class="sub">H₀: las 4 medias de duración son iguales · α = 0,05</p></div></div>
+            <div class="stats">
+              <div class="stat"><div class="label">F clásico</div><div class="value">81.497</div></div>
+              <div class="stat"><div class="label">F de Welch</div><div class="value">147.715</div></div>
+              <div class="stat"><div class="label">Valor p</div><div class="value">&lt; 0,001</div></div>
+              <div class="stat"><div class="label">Tamaño del efecto η²</div><div class="value">0,033</div></div>
+            </div>
+            <p class="verdict"><strong>Se rechaza H₀.</strong> La duración cambia según la severidad. La severidad explica cerca del 3,3 % de la variación en la duración.</p>
+            <p class="note">gl = 3 y 7.159.570. Se usó Welch porque las varianzas y los tamaños de los grupos son muy distintos.</p>
+          </div>
+        </div>
+        <div class="insights">
+          <div class="insight"><div class="big">102,24 min</div><p>dura en promedio un incidente (un poco más de hora y media).</p></div>
+          <div class="insight"><div class="big">188,39 min</div><p>duran los de nivel 4, unas 4 veces más que los de nivel 1 (45,90 min).</p></div>
+          <div class="insight"><div class="big">2 &gt; 3</div><p>El nivel 2 dura más que el nivel 3 (108 frente a 68 min). La duración no crece de forma pareja con la severidad.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="req" id="r8">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">08</div>
+          <div><h2>Tendencias mensuales y anuales</h2><p class="q">¿Cómo evolucionan los registros en el tiempo?</p></div>
+        </div>
+        <div class="card" data-chart="meses"><div class="card-head"><div><h3>Accidentes por mes</h3><p class="sub">Enero 2016 – marzo 2023 · ordenado por fecha</p></div></div><div class="chart"></div></div>
+        <div class="grid-2" style="margin-top:16px">
+          <div class="card" data-chart="anios"><div class="card-head"><div><h3>Accidentes por año</h3><p class="sub">2023 solo incluye enero a marzo</p></div></div><div class="chart"></div></div>
+          <div class="insights" style="grid-template-columns:1fr;margin-top:0">
+            <div class="insight"><div class="big">3,8×</div><p>Los registros anuales crecieron de 409.277 en 2016 a 1.541.470 en 2022, el máximo del periodo.</p></div>
+            <div class="insight"><div class="big">Dic 2022</div><p>fue el mes con más registros (169.980), seguido de abril de 2022 (161.948).</p></div>
+            <div class="insight"><div class="big">Jul–ago 2020</div><p>es la caída más fuerte de la serie (35.079 y 37.136), seguida de una recuperación rápida.</p></div>
+          </div>
+        </div>
+        <p class="caveat">El crecimiento puede reflejar también que el dataset sumó más fuentes de reporte con los años, y no solo más accidentes. 2023 tiene únicamente 3 meses, así que no se compara directamente con años completos.</p>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="req" id="r9">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">09</div>
+          <div><h2>Accidentes por tipo de vehículo</h2><p class="q">¿Qué vehículos aparecen en las descripciones?</p></div>
+        </div>
+        <div class="grid-3-1">
+          <div class="card" data-chart="vehiculos"><div class="card-head"><div><h3>Menciones por tipo de vehículo</h3><p class="sub">Palabras clave en Description · solo registros con mención</p></div></div><div class="chart"></div></div>
+          <div class="card">
+            <div class="card-head"><div><h3>Cobertura del dato</h3><p class="sub">Registros con vehículo identificado</p></div></div>
+            <div class="kpi" style="border:0;box-shadow:none;padding:4px 0 0"><div class="value">0,49 %</div><div class="sub">35.030 de 7.186.791 registros</div></div>
+            <div class="seg" id="seg-veh" role="img" aria-label="0,49 % con vehículo identificado, 99,51 % sin especificar"></div>
+            <div class="legend"><span><i id="sw-id"></i>Identificado (35.030)</span><span><i id="sw-no"></i>Sin especificar (7.151.761)</span></div>
+            <p class="note">El dataset no trae una columna de tipo de vehículo. Se dedujo buscando palabras en inglés en la descripción.</p>
+          </div>
+        </div>
+        <div class="insights">
+          <div class="insight"><div class="big">Autobús</div><p>es la mención más frecuente (22.348), casi 3 veces más que camión (8.108).</p></div>
+          <div class="insight"><div class="big">1.064</div><p>menciones de vehículos vulnerables: 775 motocicletas y 289 bicicletas.</p></div>
+          <div class="insight"><div class="big">Limitación</div><p>Con el 99,5 % sin dato, este requerimiento no permite sacar conclusiones fuertes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="req" id="r10">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">10</div>
+          <div><h2>Distribución geoespacial de puntos críticos</h2><p class="q">¿Dónde están las zonas con más accidentes?</p></div>
+        </div>
+        <div class="card" data-chart="mapa">
+          <div class="card-head"><div><h3>Estados líderes y celdas críticas</h3><p class="sub">Celdas = coordenadas de inicio redondeadas a 2 decimales (~1 km)</p></div></div>
+          <div class="chart"></div>
+          <div class="legend" id="map-legend"></div>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <div class="card">
+            <div class="card-head"><div><h3>Top 5 celdas</h3><p class="sub">Accidentes por celda de ~1 km</p></div></div>
+            <table class="data-table" id="tabla-puntos"><thead><tr><th>#</th><th>Zona</th><th class="n">Accidentes</th></tr></thead><tbody></tbody></table>
+          </div>
+          <div class="insights" style="grid-template-columns:1fr;margin-top:0">
+            <div class="insight"><div class="big">Orlando</div><p>tiene la celda con más accidentes: 3.026 en un área de ~1 km.</p></div>
+            <div class="insight"><div class="big">3 de 5</div><p>celdas críticas están en el sur de California, alrededor de Los Angeles.</p></div>
+            <div class="insight"><div class="big">Escalas</div><p>Houston lidera por ciudad, pero Orlando lidera por celda. Concentrar muchos accidentes en una ciudad no es lo mismo que en un punto.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusiones -->
+    <section class="req" id="conclusiones">
+      <div class="wrap">
+        <div class="req-head">
+          <div class="req-num">✓</div>
+          <div><h2>Conclusiones</h2><p class="q">Lo que nos dicen los 7,2 millones de registros</p></div>
+        </div>
+        <div class="conclusions">
+          <div class="card"><h3>Concentración territorial</h3><p>California reúne casi uno de cada cuatro accidentes y 7 estados suman el 59 %. Por ciudad lidera Houston y por celda de ~1 km, Orlando.</p></div>
+          <div class="card"><h3>Patrón de movilidad laboral</h3><p>Los picos a las 07:00 y entre 16:00 y 17:00, junto con el 84 % de casos entre lunes y viernes, apuntan a los desplazamientos de entrada y salida del trabajo.</p></div>
+          <div class="card"><h3>Severidad y duración</h3><p>La mayoría de los accidentes es de nivel 2, pero los de nivel 4 bloquean el tráfico durante más de 3 horas en promedio. El ANOVA confirma que la duración depende de la severidad (p &lt; 0,001).</p></div>
+          <div class="card"><h3>Tendencia creciente</h3><p>Los registros se multiplicaron por 3,8 entre 2016 y 2022, con una caída marcada a mediados de 2020. Parte del aumento puede deberse a la mayor cobertura de fuentes del dataset.</p></div>
+          <div class="card"><h3>Clima y vías: falta exposición</h3><p>La mayoría de los accidentes ocurre con buen tiempo y en interestatales. Para hablar de riesgo real se necesitarían datos de tráfico y kilómetros recorridos.</p></div>
+          <div class="card"><h3>Limitaciones del dataset</h3><p>El tipo de vehículo solo se identifica en el 0,49 % de los casos y no hay datos demográficos vinculados. Estos son los siguientes pasos para profundizar.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Fuentes.</strong> Moosavi, S. <a href="https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents" target="_blank" rel="noopener">US Accidents (2016–2023)</a>, Kaggle. Cifras del modelo de Power BI <code>Accidentes_transito.pbix</code> y del informe técnico del proyecto. Código: <a href="https://github.com/edben110/AnalisisAccidentesTransito" target="_blank" rel="noopener">github.com/edben110/AnalisisAccidentesTransito</a>.</p>
+      <p>En cada gráfica: pase el cursor para ver valores · «Tabla» muestra los datos · Modo exposición: tecla <kbd>P</kbd>, avanzar con <kbd>→</kbd> / <kbd>←</kbd>.</p>
+    </div>
+  </footer>
+  <div class="nav-hint" id="nav-hint">← → para cambiar de sección · Esc para salir</div>
+
+  <script src="js/datos.js"></script>
+  <script src="js/mapa-datos.js"></script>
+  <script src="js/graficas.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
